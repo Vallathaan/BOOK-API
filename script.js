@@ -1,54 +1,31 @@
-let weather = {
-    apiKey: "API KEY GOES HERE",
-    fetchWeather: function (city) {
-      fetch(
-        "https://api.openweathermap.org/data/2.5/weather?q=" +
-          city +
-          "&units=metric&appid=" +
-          this.apiKey
-      )
-        .then((response) => {
-          if (!response.ok) {
-            alert("No weather found.");
-            throw new Error("No weather found.");
-          }
-          return response.json();
-        })
-        .then((data) => this.displayWeather(data));
-    },
-    displayWeather: function (data) {
-      const { name } = data;
-      const { icon, description } = data.weather[0];
-      const { temp, humidity } = data.main;
-      const { speed } = data.wind;
-      document.querySelector(".city").innerText = "Weather in " + name;
-      document.querySelector(".icon").src =
-        "https://openweathermap.org/img/wn/" + icon + ".png";
-      document.querySelector(".description").innerText = description;
-      document.querySelector(".temp").innerText = temp + "°C";
-      document.querySelector(".humidity").innerText =
-        "Humidity: " + humidity + "%";
-      document.querySelector(".wind").innerText =
-        "Wind speed: " + speed + " km/h";
-      document.querySelector(".weather").classList.remove("loading");
-      document.body.style.backgroundImage =
-        "url('https://source.unsplash.com/1600x900/?" + name + "')";
-    },
-    search: function () {
-      this.fetchWeather(document.querySelector(".search-bar").value);
-    },
-  };
-  
-  document.querySelector(".search button").addEventListener("click", function () {
-    weather.search();
-  });
-  
-  document
-    .querySelector(".search-bar")
-    .addEventListener("keyup", function (event) {
-      if (event.key == "Enter") {
-        weather.search();
-      }
-    });
-  
-  weather.fetchWeather("Denver");
+async function thirukural(num){
+  try {
+      let data_from_api=await fetch("https://api-thirukkural.vercel.app/api?num="+`${num}`);
+      let finaldata=await data_from_api.json();
+
+      document.getElementById("number").innerText=finaldata.number;
+      document.getElementById("sect_tam").innerText=finaldata.sect_tam;
+      document.getElementById("chapgrp_tam").innerText=finaldata.chapgrp_tam;
+      document.getElementById("chap_tam").innerText=finaldata.chap_tam;
+      
+      document.getElementById("sect_eng").innerText=finaldata.sect_eng;
+      document.getElementById("chapgrp_eng").innerText=finaldata.chapgrp_eng;
+      document.getElementById("chap_eng").innerText=finaldata.chap_eng;
+
+      document.getElementById("line1").innerText=finaldata.line1;
+      document.getElementById("line2").innerText=finaldata.line2;
+      document.getElementById("tam_exp").innerText=finaldata.tam_exp;
+      document.getElementById("eng").innerText=finaldata.eng;
+      document.getElementById("eng_exp").innerText=finaldata.eng_exp;
+      
+  }catch (error) {
+      console.log(error);
+}}
+
+thirukural('1')
+
+let button=document.getElementById("button");
+button.addEventListener("click",function(){
+  var number=document.getElementById("inputdata").value; 
+  thirukural(number);
+})
